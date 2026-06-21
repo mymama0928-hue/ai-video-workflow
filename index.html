@@ -352,6 +352,10 @@ h3 { font-size: 19px; line-height: 1.45; margin-bottom: 12px; }
 }
 .video-frame video { width: 100%; height: 100%; display: block; object-fit: contain; }
 .video-frame iframe { width: 100%; height: 100%; display: block; border: 0; }
+.yt-facade { width: 100%; height: 100%; display: block; border: 0; padding: 0; cursor: pointer; background-size: cover; background-position: center; position: relative; }
+.yt-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 74px; height: 52px; background: rgba(20,20,20,0.78); border-radius: 14px; transition: background 0.15s; }
+.yt-play::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-40%,-50%); border-style: solid; border-width: 11px 0 11px 19px; border-color: transparent transparent transparent #fff; }
+.yt-facade:hover .yt-play { background: #f00; }
 .cover-caption { margin-top: 18px; color: var(--smoke); font-size: 13px; }
 .yt-link {
   display: inline-flex; align-items: center; gap: 6px;
@@ -1273,9 +1277,7 @@ h3 { font-size: 19px; line-height: 1.45; margin-bottom: 12px; }
       <button class="vtab" data-i="1">시나리오</button>
       <button class="vtab" data-i="2">캐릭터 콘텐츠</button>
     </div>
-    <div class="video-frame">
-      <iframe id="introVideo" src="https://www.youtube.com/embed/HtLlK0bMQIo" title="완성 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
+    <div class="video-frame" id="introFrame"></div>
     <p class="cover-caption" id="introCaption">철길부산집 AI 광고 · 60초</p>
     <a class="yt-link" id="introYoutube" href="https://youtu.be/HtLlK0bMQIo" target="_blank" rel="noopener">▶ 유튜브에서 풀버전 보기 ↗</a>
     <div class="page-nav">
@@ -2137,26 +2139,32 @@ topBtn.addEventListener('click', () => {
 });
 
 // 도입 영상 탭 전환
-const introVideos = [
-  {embed: 'https://www.youtube.com/embed/HtLlK0bMQIo', caption: '철길부산집 AI 광고 · 60초 — 광고·브랜딩 영상', portrait: false, youtube: 'https://youtu.be/HtLlK0bMQIo'},
-  {embed: 'https://www.youtube.com/embed/XrEFY9TZTLM', caption: '여우의 손님 — 시나리오 영상', portrait: false, youtube: 'https://youtu.be/XrEFY9TZTLM'},
-  {embed: 'https://www.youtube.com/embed/7q8wHMzqCPU', caption: '그래서 후참잘 — 캐릭터 콘텐츠 (9:16)', portrait: true, youtube: 'https://youtube.com/shorts/7q8wHMzqCPU'}
+const introData = [
+  {id: 'HtLlK0bMQIo', caption: '철길부산집 AI 광고 · 60초 — 광고·브랜딩 영상', portrait: false, youtube: 'https://youtu.be/HtLlK0bMQIo'},
+  {id: 'XrEFY9TZTLM', caption: '여우의 손님 — 시나리오 영상', portrait: false, youtube: 'https://youtu.be/XrEFY9TZTLM'},
+  {id: '7q8wHMzqCPU', caption: '그래서 후참잘 — 캐릭터 콘텐츠 (9:16)', portrait: true, youtube: 'https://youtube.com/shorts/7q8wHMzqCPU'}
 ];
-const introVideo = document.getElementById('introVideo');
+const introFrame = document.getElementById('introFrame');
 const introCaption = document.getElementById('introCaption');
 const introYoutube = document.getElementById('introYoutube');
-const introFrame = introVideo.closest('.video-frame');
+function showIntro(i) {
+  const v = introData[i];
+  introFrame.classList.toggle('portrait', v.portrait);
+  introFrame.innerHTML = '<button class="yt-facade" type="button" aria-label="영상 재생" style="background-image:url(https://i.ytimg.com/vi/' + v.id + '/maxresdefault.jpg)"><span class="yt-play"></span></button>';
+  introFrame.querySelector('.yt-facade').addEventListener('click', function() {
+    introFrame.innerHTML = '<iframe src="https://www.youtube.com/embed/' + v.id + '?autoplay=1&rel=0" title="영상" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;display:block;"></iframe>';
+  });
+  introCaption.textContent = v.caption;
+  introYoutube.href = v.youtube;
+}
 document.querySelectorAll('.vtab').forEach(btn => {
   btn.addEventListener('click', () => {
-    const i = parseInt(btn.dataset.i);
     document.querySelectorAll('.vtab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    introVideo.src = introVideos[i].embed;
-    introCaption.textContent = introVideos[i].caption;
-    introYoutube.href = introVideos[i].youtube;
-    introFrame.classList.toggle('portrait', introVideos[i].portrait);
+    showIntro(parseInt(btn.dataset.i));
   });
 });
+showIntro(0);
 
 // 이미지 클릭 → 라이트박스 확대
 const lightbox = document.getElementById('lightbox');
