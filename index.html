@@ -834,6 +834,19 @@ h3 { font-size: 19px; line-height: 1.45; margin-bottom: 12px; }
   margin-right: auto;
 }
 
+/* ─────────── 스토리보드 ─────────── */
+.sb-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px 16px; margin-top:20px; }
+.sb-panel { display:flex; flex-direction:column; }
+.sb-shot { position:relative; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow); background:var(--bg-soft); }
+.sb-shot img { width:100%; height:100%; object-fit:cover; display:block; }
+.sb-badge { position:absolute; top:8px; left:8px; width:26px; height:26px; border-radius:50%; background:var(--teal); color:#fff; font-family:'Jua',sans-serif; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.sb-tc { position:absolute; top:11px; left:42px; background:rgba(255,255,255,.92); color:var(--teal-deep); font-weight:700; font-size:11px; padding:2px 7px; border-radius:20px; }
+.sb-cap { margin-top:8px; }
+.sb-cap b { font-size:14px; color:var(--ink); }
+.sb-cap span { display:block; font-size:12px; color:var(--smoke); margin-top:1px; }
+@media (max-width:760px){ .sb-grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:480px){ .sb-grid{ grid-template-columns:1fr; } }
+
 /* ─────────── 프롬프트 박스 ─────────── */
 .prompt-box {
   background: var(--ink);
@@ -1718,6 +1731,26 @@ h3 { font-size: 19px; line-height: 1.45; margin-bottom: 12px; }
         <span class="mini-step">② GPTS 자동 작성<br><small>당신만의 무드보드 프롬프트</small></span>
         <span class="mini-arrow">→</span>
         <span class="mini-step">③ ChatGPT로 생성<br><small>그 자리에서 바로 이미지로</small></span>
+      </div>
+    </div>
+
+    <!-- 스토리보드 -->
+    <div style="margin-top:44px;padding-top:34px;border-top:1px solid var(--line);">
+      <div class="eyebrow">시나리오·서사 영상이라면</div>
+      <h2>스토리보드 <span style="font-family:Georgia,serif;font-style:italic;font-weight:400;color:var(--teal-deep);font-size:24px;">(Storyboard)</span> — 영상을 '컷'으로 나눈 설계도</h2>
+      <p class="lead">시나리오 영상은 키 이미지 1장으론 부족합니다. 장면(컷)마다 키 이미지를 정하는 것 — 그게 스토리보드예요.</p>
+      <div class="info-box">실제 〈철길 부산집〉 영상의 컷 구성입니다. 컷마다 무엇을·어떤 앵글로 찍을지 한눈에 보이죠. 단편 광고는 키 이미지 1장이면 충분하지만, 서사 있는 영상은 이렇게 컷별로 설계합니다.</div>
+      <div class="sb-grid">
+        <div class="sb-panel"><div class="sb-shot"><img src="./assets/C1-FF.jpg" alt="컷1 비 오는 밤 입장"><div class="sb-badge">1</div><div class="sb-tc">00:00–08</div></div><div class="sb-cap"><b>비 오는 밤, 이자카야 입장</b><span>medium · 투명 우산 들고 문 앞</span></div></div>
+        <div class="sb-panel"><div class="sb-shot"><img src="./assets/C7_FF.jpg" alt="컷2 사장의 발견"><div class="sb-badge">2</div><div class="sb-tc">00:18–26</div></div><div class="sb-cap"><b>사장, 손님의 도장 카드 발견</b><span>close-up · 부산집 앞치마</span></div></div>
+        <div class="sb-panel"><div class="sb-shot"><img src="./assets/card_today_after.jpg" alt="컷3 도장깨기 카드"><div class="sb-badge">3</div><div class="sb-tc">00:24–28</div></div><div class="sb-cap"><b>[인서트] 서윤아의 도장깨기 카드</b><span>extreme close-up · 핵심 소품</span></div></div>
+        <div class="sb-panel"><div class="sb-shot"><img src="./assets/C8_LF.jpg" alt="컷4 사케 두 잔"><div class="sb-badge">4</div><div class="sb-tc">00:33–43</div></div><div class="sb-cap"><b>따뜻한 사케 두 잔 제안</b><span>medium · 사장이 잔을 내려놓음</span></div></div>
+        <div class="sb-panel"><div class="sb-shot"><img src="./assets/C10_LF.jpg" alt="컷5 건배"><div class="sb-badge">5</div><div class="sb-tc">00:44–52</div></div><div class="sb-cap"><b>건배 — 마음의 연결</b><span>two-shot · 둘이 잔을 맞댐</span></div></div>
+        <div class="sb-panel"><div class="sb-shot"><img src="./assets/cover.png" alt="컷6 엔딩 로고"><div class="sb-badge">6</div><div class="sb-tc">00:53–60</div></div><div class="sb-cap"><b>엔딩 — 로고 &amp; 슬로건</b><span>"좋은 사람과 함께, 더 맛있는 밤"</span></div></div>
+      </div>
+      <div class="card" style="margin-top:24px;">
+        <h3>🔁 수미상관 — 처음과 끝이 호응</h3>
+        <p style="font-size:14px;color:var(--ink-soft);line-height:1.75;">③ 카드의 <strong>'혼술금지(혼자)'</strong> → ⑥ 엔딩 <strong style="color:var(--teal-deep);">'좋은 사람과 함께, 더 맛있는 밤'</strong>. 혼자 들어온 주인공이 좋은 사람과 함께하게 되며 한 바퀴 돌아 끝납니다.</p>
       </div>
     </div>
 
